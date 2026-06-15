@@ -8,7 +8,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push:
@@ -21,16 +20,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set Environment Tag Based on Branch
-        id: vars
+      - name: Set Environment Tag and Lowercase Repo Name
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
             echo "DOCKER_TAG=latest" >> $GITHUB_ENV
-            echo "Running production build for MAIN branch..."
+            echo "Setting tag to latest for production..."
           else
             echo "DOCKER_TAG=dev" >> $GITHUB_ENV
-            echo "Running testing build for DEV branch..."
+            echo "Setting tag to dev for testing..."
           fi
+          
+          # Converts "Azly-blt/OsuBoard" to "azly-blt/osuboard"
+          echo "LOWERC_REPO=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -50,5 +51,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.ENV.DOCKER_TAG }}
+          tags: ${{ env.REGISTRY }}/${{ env.LOWERC_REPO }}:${{ env.DOCKER_TAG }}
           platforms: linux/arm64
