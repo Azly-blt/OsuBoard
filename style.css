@@ -1,0 +1,105 @@
+/* Color Palette & Base Reset */
+:root {
+    --osu-pink: #ff66aa;
+    --bg-dark: #121212;      /* Deep black for the main background */
+    --bg-panel: #1a1a1a;     /* Slightly lighter black for the sidebar */
+    --text-main: #ffffff;
+    --text-muted: #888888;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 260px;
+    background-color: var(--bg-panel);
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #2a2a2a;
+}
+
+.logo h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 4rem;
+}
+
+.logo span {
+    color: var(--osu-pink); /* Injecting that osu! pink */
+}
+
+/* Navigation Links */
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
+    display: inline-block;
+    align-self: flex-start; /* Keeps the hover line only as wide as the text */
+}
+
+.nav-links a:hover, 
+.nav-links a.active {
+    color: var(--text-main);
+}
+
+/* The Smooth Hover Line 
+   We use the ::after pseudo-element to create an invisible line 
+   that expands from 0% to 100% width when hovered.
+*/
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background-color: var(--text-main); /* White line */
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Very smooth easing */
+}
+
+.nav-links a:hover::after, 
+.nav-links a.active::after {
+    width: 100%;
+}
+
+/* Main Content Styling */
+.content {
+    flex: 1; /* Takes up the remaining space next to the sidebar */
+    padding: 4rem;
+}
+
+.content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.content p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
