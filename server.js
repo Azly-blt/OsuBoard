@@ -15,11 +15,10 @@ app.use(express.json());
 app.use(express.static('public')); // Serve your HTML/CSS from the public folder
 
 // Set up the osu! API client (This automatically authenticates!)
-const osuApi = new osu.API(
-    Number(process.env.OSU_CLIENT_ID),
-    process.env.OSU_CLIENT_SECRET
-);
+const cleanId = Number((process.env.OSU_CLIENT_ID || '').trim());
+const cleanSecret = (process.env.OSU_CLIENT_SECRET || '').trim();
 
+const osuApi = new osu.API(cleanId, cleanSecret);
 // Base route just to check if the server is running
 app.get('/', (req, res) => {
     res.send('osu! API Backend is running!');
