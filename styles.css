@@ -19,16 +19,56 @@ body {
     min-height: 100vh;
     background-color: var(--bg-dark);
     color: var(--text-main);
+    overflow-x: hidden; /* Prevents scrollbars from appearing during the slide animation */
 }
 
-/* Sidebar Styling */
+/* ==========================================================================
+   MINIMALIST ICON TOGGLE BUTTON
+   ========================================================================== */
+.nav-toggle-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: transparent;
+    color: var(--text-main);
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.nav-toggle-btn:hover {
+    color: var(--osu-pink);
+}
+
+.nav-toggle-btn:active {
+    transform: scale(0.85);
+}
+
+/* ==========================================================================
+   SIDEBAR & SLIDE POP ANIMATION
+   ========================================================================== */
 .sidebar {
     width: 260px;
     background-color: var(--bg-panel);
-    padding: 3rem 2rem;
+    /* Added 5rem top padding so the logo sits cleanly under the toggle button */
+    padding: 5rem 2rem 3rem 2rem; 
     display: flex;
     flex-direction: column;
     border-right: 1px solid #2a2a2a;
+    
+    /* The elastic slide pop transition */
+    transition: margin-left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* When the hidden class is applied, we pull the margin left.
+  Because the body is a flex container, this naturally pulls the content 
+  over to the left with it!
+*/
+.sidebar.hidden {
+    margin-left: -260px;
+    transition: margin-left 0.25s ease-in; /* Faster, straight slide-out */
 }
 
 .logo h2 {
@@ -39,7 +79,7 @@ body {
 }
 
 .logo span {
-    color: var(--osu-pink); /* Injecting that osu! pink */
+    color: var(--osu-pink);
 }
 
 /* Navigation Links */
@@ -67,10 +107,7 @@ body {
     color: var(--text-main);
 }
 
-/* The Smooth Hover Line 
-   We use the ::after pseudo-element to create an invisible line 
-   that expands from 0% to 100% width when hovered.
-*/
+/* The Smooth Hover Line */
 .nav-links a::after {
     content: '';
     position: absolute;
@@ -87,10 +124,13 @@ body {
     width: 100%;
 }
 
-/* Main Content Styling */
+/* ==========================================================================
+   MAIN CONTENT AREA
+   ========================================================================== */
 .content {
-    flex: 1; /* Takes up the remaining space next to the sidebar */
+    flex: 1; 
     padding: 4rem;
+    padding-top: 5rem; /* Aligns visually with the sidebar */
 }
 
 .content h1 {
