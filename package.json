@@ -1,0 +1,17 @@
+{
+  "name": "osu-score-backend",
+  "version": "1.0.0",
+  "description": "Node backend to fetch osu! player scores",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "osu-api-v2-js": "^0.6.0"
+  }
+}
