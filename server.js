@@ -14,10 +14,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public')); // Serve your HTML/CSS from the public folder
 
-// Set up the osu! API client (This automatically authenticates!)
-const cleanId = Number((process.env.OSU_CLIENT_ID || '').trim());
-const cleanSecret = (process.env.OSU_CLIENT_SECRET || '').trim();
 
+const rawId = process.env.OSU_CLIENT_ID || '';
+const rawSecret = process.env.OSU_CLIENT_SECRET || '';
+
+const cleanId = Number(rawId.trim());
+const cleanSecret = rawSecret.trim();
+
+// Debug logs to prove the data is correct inside Node
+console.log(`[DEBUG] Raw ID length: ${rawId.length}, Clean ID: ${cleanId}`);
+console.log(`[DEBUG] Secret exists: ${cleanSecret.length > 0 ? "YES" : "NO"}`);
+
+// Set up the osu! API client with the cleaned keys
 const osuApi = new osu.API(cleanId, cleanSecret);
 // Base route just to check if the server is running
 app.get('/', (req, res) => {
