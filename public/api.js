@@ -15,11 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
 
             try {
-                const scores = await fetchPlayerScores(username);
-                console.log(`✅ Successfully fetched data for ${username}:`, scores);
+                // Call our updated fetch function
+                const profileData = await fetchPlayerProfile(username);
+                console.log(`✅ Successfully fetched profile for ${username}:`, profileData);
                 
-                // Future function call to build the UI widgets will go here
-                // renderScores(scores); 
 
             } catch (error) {
                 console.error("❌ Search failed:", error);
@@ -33,8 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-async function fetchPlayerScores(username) {
-    const response = await fetch(`/api/scores/${encodeURIComponent(username)}`);
+// Updated to call the new /api/player endpoint
+async function fetchPlayerProfile(username) {
+    const response = await fetch(`/api/player/${encodeURIComponent(username)}`);
     
     if (!response.ok) {
         const errorData = await response.json();
