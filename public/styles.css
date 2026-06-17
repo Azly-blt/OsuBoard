@@ -2,7 +2,7 @@
 :root {
     --osu-pink: #ff66aa;
     --bg-dark: #121212;      /* Deep black for the main background */
-    --bg-panel: #1a1a1a;     /* Slightly lighter black for the sidebar */
+    --bg-panel: #1a1a1a;     /* Slightly lighter black for the sidebar and search */
     --text-main: #ffffff;
     --text-muted: #888888;
 }
@@ -52,23 +52,16 @@ body {
 .sidebar {
     width: 260px;
     background-color: var(--bg-panel);
-    /* Added 5rem top padding so the logo sits cleanly under the toggle button */
     padding: 5rem 2rem 3rem 2rem; 
     display: flex;
     flex-direction: column;
     border-right: 1px solid #2a2a2a;
-    
-    /* The elastic slide pop transition */
     transition: margin-left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* When the hidden class is applied, we pull the margin left.
-  Because the body is a flex container, this naturally pulls the content 
-  over to the left with it!
-*/
 .sidebar.hidden {
     margin-left: -260px;
-    transition: margin-left 0.25s ease-in; /* Faster, straight slide-out */
+    transition: margin-left 0.25s ease-in; 
 }
 
 .logo h2 {
@@ -99,7 +92,7 @@ body {
     padding-bottom: 5px;
     transition: color 0.3s ease;
     display: inline-block;
-    align-self: flex-start; /* Keeps the hover line only as wide as the text */
+    align-self: flex-start; 
 }
 
 .nav-links a:hover, 
@@ -107,7 +100,6 @@ body {
     color: var(--text-main);
 }
 
-/* The Smooth Hover Line */
 .nav-links a::after {
     content: '';
     position: absolute;
@@ -115,8 +107,8 @@ body {
     bottom: 0;
     height: 2px;
     width: 0;
-    background-color: var(--text-main); /* White line */
-    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Very smooth easing */
+    background-color: var(--text-main); 
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
 }
 
 .nav-links a:hover::after, 
@@ -125,21 +117,107 @@ body {
 }
 
 /* ==========================================================================
-   MAIN CONTENT AREA
+   MAIN CONTENT AREA & HERO SEARCH
    ========================================================================== */
 .content {
     flex: 1; 
     padding: 4rem;
-    padding-top: 5rem; /* Aligns visually with the sidebar */
+    padding-top: 5rem;
+    display: flex;
+    flex-direction: column;
 }
 
-.content h1 {
-    font-size: 3rem;
+/* Wraps the welcome text and search bar to center them perfectly */
+.search-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: -5rem; /* Offsets the top padding for true vertical center */
+}
+
+.search-wrapper h1 {
+    font-size: 3.5rem;
     margin-bottom: 1rem;
     font-weight: 700;
+    letter-spacing: -1px;
 }
 
-.content p {
+.search-wrapper p {
     color: var(--text-muted);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+}
+
+/* The Search Bar Container */
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-panel);
+    border: 2px solid transparent;
+    border-radius: 50px; /* Pill shape */
+    padding: 8px 12px 8px 25px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+/* Glow effect when user clicks inside the input */
+.search-bar:focus-within {
+    border-color: var(--osu-pink);
+    box-shadow: 0 8px 32px rgba(255, 102, 170, 0.15);
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* The Text Input */
+.search-bar input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-size: 1.2rem;
+    outline: none;
+}
+
+.search-bar input::placeholder {
+    color: var(--text-muted);
+}
+
+/* The Submit Button */
+.search-btn {
+    background-color: var(--osu-pink);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-btn:hover {
+    transform: scale(1.05);
+    background-color: #ff88bb; /* Slightly lighter pink on hover */
+    box-shadow: 0 4px 12px rgba(255, 102, 170, 0.4);
+}
+
+.search-btn:active {
+    transform: scale(0.95);
+}
+
+/* Search Icon Color */
+.search-btn svg {
+    fill: var(--text-main);
+    width: 22px;
+    height: 22px;
+    transition: transform 0.2s ease;
+}
+
+.search-btn:hover svg {
+    transform: scale(1.1);
 }
