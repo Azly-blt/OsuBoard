@@ -59,17 +59,16 @@ app.get('/', (req, res) => {
     res.send('osu! API Backend is running!');
 });
 
-// 2. Main Route: Fetch data directly using the token
-app.get('/api/scores/:username', async (req, res) => {
+// 2. Main Route: Fetch player profile data
+app.get('/api/player/:username', async (req, res) => {
     if (!osuAccessToken) {
         return res.status(500).json({ error: "Backend is not authenticated with osu! yet." });
     }
 
     try {
-        // Encode the username in case it has weird characters/spaces
         const encodedName = encodeURIComponent(req.params.username);
         
-        // STEP A: Fetch the user data directly from osu! API
+        // Fetch the user data directly from osu! API
         const userRes = await fetch(`https://osu.ppy.sh/api/v2/users/${encodedName}`, {
             headers: {
                 "Authorization": `Bearer ${osuAccessToken}`,
@@ -85,26 +84,11 @@ app.get('/api/scores/:username', async (req, res) => {
         }
 
         const user = await userRes.json();
-
-        // STEP B: Fetch the recent scores using the user's ID
-        const scoresRes = await fetch(`https://osu.ppy.sh/api/v2/users/${user.id}/scores/recent?limit=5`, {
-            headers: {
-                "Authorization": `Bearer ${osuAccessToken}`,
-                "Accept": "application/json"
-            }
-        });
-
-        if (!scoresRes.ok) {
-            throw new Error(`osu! scores fetch failed with status ${scoresRes.status}`);
-        }
-
-        const scores = await scoresRes.json();
         
-        // STEP C: Send the data to your frontend
-        res.json(scores);
+        res.json(user);
 
     } catch (error) {
-        console.error("Error fetching scores:", error.message);
+        console.error("Error fetching player:", error.message);
         res.status(500).json({ error: `Backend Error: ${error.message}` });
     }
 });
