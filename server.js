@@ -20,7 +20,7 @@ let osuApi;
 
 async function initOsuApi() {
     try {
-        osuApi = await osu.default.auth.clientCredentialsGrant(
+        osuApi = await osu.auth.clientCredentialsGrant(
             Number(process.env.OSU_CLIENT_ID),
             process.env.OSU_CLIENT_SECRET
         );
