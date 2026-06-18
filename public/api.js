@@ -15,14 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
 
             try {
-                // Call our updated fetch function
                 const profileData = await fetchPlayerProfile(username);
                 console.log(`✅ Successfully fetched profile for ${username}:`, profileData);
                 
 
             } catch (error) {
                 console.error("❌ Search failed:", error);
-                alert(`Could not fetch scores for '${username}'. They might not exist or haven't played recently.`);
+                alert(`Could not fetch profile for '${username}'. They might not exist.`);
             } finally {
                 submitBtn.innerHTML = originalIcon;
                 submitBtn.disabled = false;
@@ -32,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Updated to call the new /api/player endpoint
 async function fetchPlayerProfile(username) {
     const response = await fetch(`/api/player/${encodeURIComponent(username)}`);
     

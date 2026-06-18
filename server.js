@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -16,10 +15,8 @@ app.use(express.static('public'));
 const cleanId = Number((process.env.OSU_CLIENT_ID || '').trim());
 const cleanSecret = (process.env.OSU_CLIENT_SECRET || '').trim();
 
-// Store the valid token globally
 let osuAccessToken = null;
 
-// 1. Manually authenticate using native Node.js fetch
 async function authenticateOsu() {
     try {
         console.log(`[DEBUG] Requesting osu! token for ID: ${cleanId}`);
@@ -41,7 +38,7 @@ async function authenticateOsu() {
         const data = await response.json();
 
         if (data.access_token) {
-            osuAccessToken = data.access_token; // Save the token!
+            osuAccessToken = data.access_token;
             console.log("[DEBUG] ✅ Successfully got access token from osu!");
             console.log(`🚀 osu! API is ready to accept requests!`);
         } else {
@@ -54,12 +51,10 @@ async function authenticateOsu() {
 
 authenticateOsu();
 
-// Base route
 app.get('/', (req, res) => {
     res.send('osu! API Backend is running!');
 });
 
-// 2. Main Route: Fetch player profile data
 app.get('/api/player/:username', async (req, res) => {
     if (!osuAccessToken) {
         return res.status(500).json({ error: "Backend is not authenticated with osu! yet." });
@@ -68,13 +63,24 @@ app.get('/api/player/:username', async (req, res) => {
     try {
         const encodedName = encodeURIComponent(req.params.username);
         
-        // Fetch the user data directly from osu! API
-        const userRes = await fetch(`https://osu.ppy.sh/api/v2/users/${encodedName}`, {
+        let userRes = await fetch(`https://osu.ppy.sh/api/v2/users/${encodedName}`, {
             headers: {
                 "Authorization": `Bearer ${osuAccessToken}`,
                 "Accept": "application/json"
             }
         });
+
+        if (userRes.status === 401) {
+            console.log("⚠️ osu! token expired or invalid. Fetching a fresh one...");
+            await authenticateOsu();
+            
+            userRes = await fetch(`https://osu.ppy.sh/api/v2/users/${encodedName}`, {
+                headers: {
+                    "Authorization": `Bearer ${osuAccessToken}`,
+                    "Accept": "application/json"
+                }
+            });
+        }
 
         if (!userRes.ok) {
             if (userRes.status === 404) {
@@ -93,7 +99,6 @@ app.get('/api/player/:username', async (req, res) => {
     }
 });
 
-// Start the server
 app.listen(port, () => {
     console.log(`🚀 Backend server listening internally on port ${port}`);
 });
