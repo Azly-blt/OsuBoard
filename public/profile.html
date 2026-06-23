@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OsuBoard - Profile</title>
+    <title>OsuBoard - My Profile</title>
     <link rel="stylesheet" href="styles.css">
     <script src="ui.js" defer></script>
+    <script src="profile.js" defer></script>
 </head>
 <body>
 
@@ -18,12 +19,22 @@
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="profile.html" class="active">My Profile</a></li>
+            <li style="margin-top: 2rem;">
+                <a href="/auth/login" class="login-btn-sidebar">Login with osu!</a>
+            </li>
         </ul>
     </nav>
 
     <main class="content">
-        <h1>Welcome to your profile page</h1>
-        <p>Here you will be able to see all your top plays</p>
+        <div id="profile-container" class="dashboard-wrapper">
+            <div class="login-prompt">
+                <h1>Authentication Required</h1>
+                <p>You need to log in to view your private osu! dashboard.</p>
+                <a href="/auth/login" class="search-btn" style="width: auto; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-top: 20px;">
+                    Connect osu! Account
+                </a>
+            </div>
+        </div>
     </main>
 
 </body>

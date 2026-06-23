@@ -313,3 +313,102 @@ body {
     font-weight: 700;
     color: var(--text-main);
 }
+
+/* ==========================================================================
+   PRIVATE DASHBOARD LAYOUT
+   ========================================================================== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dashboard-card {
+    background-color: var(--bg-panel);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Header Section */
+.profile-header-card {
+    grid-column: 1 / -1; /* Spans full width */
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.play-time {
+    color: var(--osu-pink);
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+/* Me! Section */
+.me-section {
+    max-height: 400px;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.2);
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+/* Top Plays List */
+.top-plays-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.score-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0,0,0,0.3);
+    padding: 12px 20px;
+    border-radius: 12px;
+    border-left: 4px solid var(--osu-pink);
+}
+
+.score-song {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.score-diff {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.score-pp {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--osu-pink);
+}
+
+/* Play History Chart */
+.chart-container {
+    height: 200px;
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    margin-top: 2rem;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #333;
+}
+
+.chart-bar {
+    flex: 1;
+    background-color: var(--osu-pink);
+    border-radius: 4px 4px 0 0;
+    transition: height 0.5s ease;
+    min-height: 5px;
+}
+
+.chart-bar:hover {
+    background-color: #ff88bb;
+}
