@@ -22,14 +22,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     container.innerHTML = `<h2 style="text-align:center;">Fetching your dashboard... ⏳</h2>`;
 
     try {
-        // 3. Fetch the private "Me" profile
-        const meRes = await fetch("https://osu.ppy.sh/api/v2/me", {
-            headers: { "Authorization": `Bearer ${token}` }
-        });
-        
-        if (!meRes.ok) throw new Error("Token expired");
-        const user = await meRes.json();
-
         // 4. Fetch your Top 5 Plays
         const topRes = await fetch(`https://osu.ppy.sh/api/v2/users/${user.id}/scores/best?limit=5`, {
             headers: { "Authorization": `Bearer ${token}` }
